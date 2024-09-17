@@ -13,8 +13,14 @@ def LotkaVolterra(t, v):
     dydt = delta * x * y - gamma * y
     return dxdt, dydt 
 
+def convertir_a_entero(decimal):
+    if decimal < 1:  # Si el número es menor que 1
+        return int(str(decimal)[2])  # Toma el primer decimal como entero
+    else:
+        return int(decimal)  # Toma la parte entera
+
 # Inicialización
-x0 = 200  # 2000 conejos inicialmente
+x0 = 200  # 200 conejos inicialmente
 y0 = 100  # zorros inicialmente
 v0 = x0, y0
 
@@ -23,7 +29,10 @@ t = np.linspace(*tspan, 2000)
 
 # Resolviendo el sistema de ecuaciones
 r = integ.solve_ivp(LotkaVolterra, tspan, v0, t_eval=t)
-x, y = r.y
+
+# Convertir a enteros usando la función definida
+x = np.array([convertir_a_entero(val) for val in r.y[0]])
+y = np.array([convertir_a_entero(val) for val in r.y[1]])
 
 # Reloj virtual y lista de eventos
 eventos = []
@@ -42,15 +51,31 @@ for i in range(len(t)):
     elif x[i] > 5000 and y[i] == 0:  # Regla 6: Crecimiento Exponencial de Presas sin Depredadores
         eventos.append((t[i], "Crecimiento Exponencial de Presas", x[i], y[i]))
 
-# Imprimir el listado de eventos
-print("Listado de Eventos:")
-for evento in eventos:
+# Filtrar el tiempo y las poblaciones donde hay cambios
+tiempos_cambios = []
+conejos_cambios = []
+zorros_cambios = []
+eventos_filtrados = []
+
+for i in range(1, len(t)):
+    if x[i] != x[i-1] or y[i] != y[i-1]:  # Si hay un cambio
+        tiempos_cambios.append(t[i])
+        conejos_cambios.append(x[i])
+        zorros_cambios.append(y[i])
+        # Filtrar eventos que coincidan con tiempos_cambios
+        for evento in eventos:
+            if abs(evento[0] - t[i]) < 1e-5:  # Comparar tiempos con una tolerancia
+                eventos_filtrados.append(evento)
+
+# Imprimir el listado de eventos filtrados
+print("Listado de Eventos Filtrados:")
+for evento in eventos_filtrados:
     print(f"Tiempo: {evento[0]:.2f}, Evento: {evento[1]}, Conejos: {evento[2]}, Zorros: {evento[3]}")
 
 # Gráfica de la cantidad de conejos y zorros
 plt.figure(figsize=(10, 5))
-plt.plot(t, x, label='Conejos', color='blue')
-plt.plot(t, y, label='Zorros', color='red')
+plt.plot(tiempos_cambios, conejos_cambios, label='Conejos', color='blue', marker='o')
+plt.plot(tiempos_cambios, zorros_cambios, label='Zorros', color='red', marker='x')
 plt.title('Modelo de Lotka-Volterra')
 plt.xlabel('Tiempo')
 plt.ylabel('Cantidad')

@@ -20,8 +20,8 @@ def convertir_a_entero(decimal):
         return int(decimal)  # Toma la parte entera
 
 # Inicialización
-x0 = 200  # 200 conejos inicialmente
-y0 = 100  # zorros inicialmente
+x0 = 0  # 200 conejos inicialmente
+y0 = 1000  # zorros inicialmente
 v0 = x0, y0
 
 tspan = (0, 60)
@@ -38,17 +38,17 @@ y = np.array([convertir_a_entero(val) for val in r.y[1]])
 eventos = []
 
 for i in range(len(t)):
-    if x[i] > 0 and y[i] < 20:  # Regla 1: Aumento de Presas con Pocos Depredadores
+    if x[i] > 0 and y[i] < 20 and y[i] > 0:  # Regla 1: Aumento de Presas con Pocos Depredadores
         eventos.append((t[i], "Aumento de Presas", x[i], y[i]))
-    elif x[i] < 500 and y[i] > 15:  # Regla 2: Disminución de Presas con Muchos Depredadores
+    elif x[i] < 500 and y[i] > 15 and x[i] > 0:  # Regla 2: Disminución de Presas con Muchos Depredadores
         eventos.append((t[i], "Disminución de Presas", x[i], y[i]))
-    elif y[i] > 0 and x[i] < 100:  # Regla 3: Disminución de Depredadores con Pocas Presas
+    elif y[i] > 0 and x[i] < 100 and x[i] > 0:  # Regla 3: Disminución de Depredadores con Pocas Presas
         eventos.append((t[i], "Disminución de Depredadores", x[i], y[i]))
-    elif y[i] < 20 and x[i] > 1000:  # Regla 4: Aumento de predadores con muchas presas
+    elif y[i] < 20 and x[i] > 1000 and y[i] > 0:  # Regla 4: Aumento de predadores con muchas presas
         eventos.append((t[i], "Aumento de Depredadores", x[i], y[i]))
-    elif y[i] == 0 and x[i] > 0:  # Regla 5: Extinción de Depredadores sin Presas
+    elif y[i] > 0 and x[i] == 0:  # Regla 5: Extinción de Depredadores sin Presas
         eventos.append((t[i], "Extinción de Depredadores", x[i], y[i]))
-    elif x[i] > 5000 and y[i] == 0:  # Regla 6: Crecimiento Exponencial de Presas sin Depredadores
+    elif x[i] > 0 and y[i] == 0:  # Regla 6: Crecimiento Exponencial de Presas sin Depredadores
         eventos.append((t[i], "Crecimiento Exponencial de Presas", x[i], y[i]))
 
 # Filtrar el tiempo y las poblaciones donde hay cambios

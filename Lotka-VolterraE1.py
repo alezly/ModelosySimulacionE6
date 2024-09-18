@@ -17,7 +17,7 @@ x0 = 2000 #2000 conejos inicialmente
 y0 = 10 #zorros inicialmente
 v0 = x0,y0
 
-tspan = (0, 50)
+tspan = (0, 250)
 t = np.linspace(*tspan, 2000)
 
 r = integ.solve_ivp(LotkaVolterra, tspan, v0, t_eval=t)
@@ -36,8 +36,8 @@ for label in ax1.get_yticklabels():
 ax1.spines["left"].set_color("green")
 
 ax2.set_ylabel('Zorros', color='b')
-ax2.set_xlim([0,50])
-ax2.set_ylim([0,50])
+ax2.set_xlim([0,250])
+ax2.set_ylim([0,250])
 for label in ax2.get_yticklabels():
     label.set_color("blue")
 ax1.spines["right"].set_color("blue")

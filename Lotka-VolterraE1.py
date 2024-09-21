@@ -22,7 +22,7 @@ t = np.linspace(*tspan, 2000)
 
 r = integ.solve_ivp(LotkaVolterra, tspan, v0, t_eval=t)
 x,y=r.y
-
+print(t.tolist())
 # Figura
 fig, ax1 = plt.subplots(figsize=(12,4))
 ax2 = ax1.twinx()

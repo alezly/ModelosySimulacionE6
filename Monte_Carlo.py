@@ -1,39 +1,57 @@
-import numpy as np
-import matplotlib.pyplot as plt
+import numpy as np  
+import matplotlib.pyplot as plt  
 
-# Parámetros del modelo
-alpha = 0.1  # Tasa de crecimiento de conejos
-beta = 0.02  # Tasa de depredación
-delta = 0.01  # Tasa de crecimiento de zorros
-gamma = 0.1  # Tasa de mortalidad de zorros
+# Parámetros del modelo Lotka-Volterra  
+alpha = 0.1  # Tasa de crecimiento de presas  
+beta = 0.02  # Tasa de depredación  
+gamma = 0.1  # Tasa de muerte de depredadores  
+delta = 0.01 # Tasa de crecimiento de depredadores  
 
-# Condiciones iniciales
-R0 = 40  # Población inicial de conejos
-F0 = 9   # Población inicial de zorros
-time_steps = 200  # Número de pasos de tiempo
+# Cantidad de simulaciones y condiciones iniciales  
+simulations = 1000  
+time_steps = 100  
+dt = 0.1  
 
-# Almacenamiento de resultados
-R = np.zeros(time_steps)
-F = np.zeros(time_steps)
-R[0] = R0
-F[0] = F0
+# Arrays para almacenar resultados  
+final_presas = []  
+final_depredadores = []  
 
-# Simulación de Monte Carlo
-for t in range(1, time_steps):
-    R[t] = R[t-1] + (alpha * R[t-1] - beta * R[t-1] * F[t-1]) + np.random.normal(0, 2)
-    F[t] = F[t-1] + (delta * R[t-1] * F[t-1] - gamma * F[t-1]) + np.random.normal(0, 1)
+# Simulación  
+for _ in range(simulations):  
+    # Condiciones iniciales aleatorias  
+    X0 = np.random.uniform(20, 100)  # Población inicial de presas  
+    Y0 = np.random.uniform(5, 20)     # Población inicial de depredadores  
     
-    # Asegurarse de que las poblaciones no sean negativas
-    R[t] = max(R[t], 0)
-    F[t] = max(F[t], 0)
+    # Inicializar la población  
+    X = X0  
+    Y = Y0  
 
-# Visualización de los resultados
-plt.figure(figsize=(12, 6))
-plt.plot(R, label='Conejos (presas)', color='blue')
-plt.plot(F, label='Zorros (depredadores)', color='red')
-plt.title('Simulación de Zorros y Conejos usando Monte Carlo')
-plt.xlabel('Tiempo')
-plt.ylabel('Población')
-plt.legend()
-plt.grid()
-plt.show()
+    # Simular el comportamiento a lo largo del tiempo  
+    for t in np.arange(0, time_steps, dt):  
+        dX = (alpha * X - beta * X * Y) * dt  
+        dY = (delta * X * Y - gamma * Y) * dt  
+        X += dX  
+        Y += dY  
+    
+    # Guardar resultados finales  
+    final_presas.append(X)  
+    final_depredadores.append(Y)  
+
+# Calcular medias de las poblaciones finales  
+mean_presas = np.mean(final_presas)  
+mean_depredadores = np.mean(final_depredadores)  
+
+# Graficar resultados en un gráfico de barras  
+labels = ['Población de Presas', 'Población de Depredadores']  
+mean_values = [mean_presas, mean_depredadores]  
+
+plt.bar(labels, mean_values, color=['skyblue', 'salmon'])  
+plt.title('Población Media de Presas y Depredadores')  
+plt.ylabel('Número de Individuos')  
+plt.grid(axis='y', linestyle='--')  
+plt.ylim(0, max(mean_values) + 10)  # Extender el eje y para mejor visibilidad  
+plt.show()  
+
+# Impresión de resultados  
+print(f"Población media final de presas: {mean_presas:.2f}")  
+print(f"Población media final de depredadores: {mean_depredadores:.2f}")

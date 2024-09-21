@@ -14,17 +14,22 @@ def LotkaVolterra(t, v):
     return dxdt, dydt 
 
 def convertir_a_entero(decimal):
-    if decimal < 1:  # Si el número es menor que 1
-        return int(str(decimal)[2])  # Toma el primer decimal como entero
+    if decimal < 1: 
+        # Convertir el número a cadena
+        numero_str = str(decimal)
+        punto_decimal = numero_str.find('.')
+        if punto_decimal != -1 and punto_decimal + 1 < len(numero_str):
+            return int(numero_str[punto_decimal + 1])  # Retornar el primer decimal
+        return 0 
     else:
         return int(decimal)  # Toma la parte entera
 
 # Inicialización
-x0 = 0  # 200 conejos inicialmente
-y0 = 1000  # zorros inicialmente
+x0 = 200  # 200 conejos inicialmente
+y0 = 100  # zorros inicialmente
 v0 = x0, y0
 
-tspan = (0, 60)
+tspan = (0, 30)
 t = np.linspace(*tspan, 2000)
 
 # Resolviendo el sistema de ecuaciones
@@ -68,15 +73,15 @@ for i in range(1, len(t)):
                 eventos_filtrados.append(evento)
 
 # Imprimir el listado de eventos filtrados
-print("Listado de Eventos Filtrados:")
+print("Listado de Eventos:")
 for evento in eventos_filtrados:
     print(f"Tiempo: {evento[0]:.2f}, Evento: {evento[1]}, Conejos: {evento[2]}, Zorros: {evento[3]}")
 
 # Gráfica de la cantidad de conejos y zorros
 plt.figure(figsize=(10, 5))
-plt.plot(tiempos_cambios, conejos_cambios, label='Conejos', color='blue', marker='o')
-plt.plot(tiempos_cambios, zorros_cambios, label='Zorros', color='red', marker='x')
-plt.title('Modelo de Lotka-Volterra')
+plt.plot(tiempos_cambios, conejos_cambios, label='Conejos', color='skyblue', marker='o')
+plt.plot(tiempos_cambios, zorros_cambios, label='Zorros', color='salmon', marker='x')
+plt.title('Modelo de Lotka-Volterra (Reloj Virtual)')
 plt.xlabel('Tiempo')
 plt.ylabel('Cantidad')
 plt.legend()

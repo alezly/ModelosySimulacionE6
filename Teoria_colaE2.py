@@ -27,7 +27,7 @@ t = np.linspace(0, 15, 1000)
 
 # Resolver el sistema de ecuaciones
 sol = odeint(sistema, y0, t)
-
+print(sol[:, 1].tolist())
 # Graficar los resultados
 plt.figure(figsize=(8,6))
 plt.plot(t, sol[:, 0], color='lightsalmon', label='Presas (C)')

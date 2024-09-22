@@ -16,11 +16,12 @@ Este repositorio contiene los códigos de las evidencias de la materia Modelos y
     -MATLAB: Una implementación que visualiza la analogía.
 - Evidencia 3: Simulación de Monte Carlo y Reloj Virtual
   - Descripción: Esta evidencia incluye dos códigos en Python. El primero utiliza el método de Monte Carlo para simular la población media, mientras que el segundo es un reloj virtual que gestiona eventos.
-  -Lenguajes:
+  - Lenguajes:
     -Python: Simulación de Monte Carlo y Reloj virtual con eventos.
 
 # Cómo Ejecutar los Códigos
--Requisitos: Asegúrate de tener instalados Python y MATLAB en tu sistema.
--Ejecución:
-  -Para los códigos en Python, puedes ejecutar los scripts directamente desde la terminal o utilizando un entorno de desarrollo como Jupyter Notebook.
-  -Para los códigos en MATLAB, abre el archivo en el entorno de MATLAB y ejecuta el script.
+
+- Requisitos: Asegúrate de tener instalados Python y MATLAB en tu sistema.
+- Ejecución:
+  - Para los códigos en Python, puedes ejecutar los scripts directamente desde la terminal o utilizando un entorno de desarrollo como Jupyter Notebook.
+  - Para los códigos en MATLAB, abre el archivo en el entorno de MATLAB y ejecuta el script.

@@ -19,8 +19,8 @@ final_depredadores = []
 # Simulación  
 for _ in range(simulations):  
     # Condiciones iniciales aleatorias  
-    X0 = np.random.uniform(20, 100)  # Población inicial de presas  
-    Y0 = np.random.uniform(5, 20)     # Población inicial de depredadores  
+    X0 = np.random.uniform(0, 100)  # Población inicial de presas  
+    Y0 = np.random.uniform(0, 20)     # Población inicial de depredadores  
     
     # Inicializar la población  
     X = X0  
